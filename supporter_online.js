@@ -1,3 +1,6 @@
+//SinusBot Version 0.9.15
+//Plugin erstellt von Laki
+//Credit me if you use this Plugin!
 registerPlugin({
 	name: 'Supporter Online Script',
 	version: '1.0',
