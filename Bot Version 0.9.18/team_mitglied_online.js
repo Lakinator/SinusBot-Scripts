@@ -143,8 +143,7 @@ registerPlugin({
 
   			for (var j = 0; j < online_infos[i].client_ids.length; j++) {
   				client = backend.getClientByID(online_infos[i].client_ids[j]);
-
-  				description += "\n[b][color=green]" + group.name() + "[/color][/b] Online:\n";
+				
   				description += "Der " + group.name() + " [URL=client://0/"+ client.uid() + "~" + client.name().replace(/ /g, "%") + "]" + client.name() +"[/URL]" + " ist online\n";
 			}
 
