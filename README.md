@@ -1,4 +1,4 @@
 # SinusBot-Scripts
-SinusBot Version 0.9.15 |
+SinusBot Beta Scripts |
 Plugins erstellt von Laki |
 Credit me if you use a Plugin!
