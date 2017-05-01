@@ -135,6 +135,12 @@ registerPlugin({
   			group = backend.getServerGroupByID(online_infos[i].groupID);
   			anzahl += online_infos[i].counter;
 
+			if (online_infos[i].client_ids.length == 0) {
+				description += "\nKein [b][color=red]" + group.name() + "[/color][/b] Online\n";
+			} else {
+				description += "\n[b][color=green]" + group.name() + "[/color][/b] Online:\n";
+			}
+
   			for (var j = 0; j < online_infos[i].client_ids.length; j++) {
   				client = backend.getClientByID(online_infos[i].client_ids[j]);
 
@@ -142,9 +148,6 @@ registerPlugin({
   				description += "Der " + group.name() + " [URL=client://0/"+ client.uid() + "~" + client.name().replace(/ /g, "%") + "]" + client.name() +"[/URL]" + " ist online\n";
 			}
 
-			if (online_infos[i].client_ids.length == 0) {
-				description += "Kein [b][color=red]" + group.name() + "[/color][/b] Online\n";
-			}
 		}
 
 		channel_display.setName(channel_name.replace(/%n/g, anzahl));
