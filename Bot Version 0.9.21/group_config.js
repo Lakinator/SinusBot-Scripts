@@ -88,56 +88,29 @@ registerPlugin({
   		groupStyleObjects[i] = new groupStyleObject(i);
   	}
 
-  	for (var i = 0; i < groupStyleObjects.length; i++) {
-  		engine.log(groupStyleObjects[i].groupExtras.length);
-  	}
 
   	event.on("clientVisible", function(ev) {
   		if (ev.fromChannel == null && !hasGroups(ev.client, forbidden_ids)) {
 
-  			update(ev.client);
-
-		}
-  	});
-
-  	event.on("serverGroupAdded", function(ev) {
-  		if (!hasGroups(ev.client, forbidden_ids)) {
-
-  			update(ev.client);
-
-		}
-  	});
-
-  	event.on("serverGroupRemoved", function(ev) {
-  		if (!hasGroups(ev.client, forbidden_ids)) {
-
-  			update(ev.client);
-
-		}
-  	});
-
-
-
-  	function update(client) {
-  		for (var i = 0; i < groupStyleObjects.length; i++) {
+  			for (var i = 0; i < groupStyleObjects.length; i++) {
   			//Normal
-  			if (hasGroups(client, groupStyleObjects[i].groups)) {
-  				if (!hasGroup(client, groupStyleObjects[i].id_start)) {
-  					engine.log(client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " hinzugefügt");
-  					client.addToServerGroup("" + groupStyleObjects[i].id_start);
+  			if (hasGroups(ev.client, groupStyleObjects[i].groups)) {
+  				if (!hasGroup(ev.client, groupStyleObjects[i].id_start)) {
+  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " hinzugefügt");
+  					ev.client.addToServerGroup("" + groupStyleObjects[i].id_start);
   				}
-  				if (!hasGroup(client, groupStyleObjects[i].id_end)) {
-  					engine.log(client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " hinzugefügt");
-  					client.addToServerGroup("" + groupStyleObjects[i].id_end);
+  				if (!hasGroup(ev.client, groupStyleObjects[i].id_end)) {
+  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " hinzugefügt");
+  					ev.client.addToServerGroup("" + groupStyleObjects[i].id_end);
   				}
   			} else {
-  				if (hasGroup(client, groupStyleObjects[i].id_start)) {
-  					engine.log(client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " entfernt");
-  					client.removeFromServerGroup("" + groupStyleObjects[i].id_start);
+  				if (hasGroup(ev.client, groupStyleObjects[i].id_start)) {
+  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " entfernt");
+  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].id_start);
   				}
-  				if (hasGroup(client, groupStyleObjects[i].id_end)) {
-  					engine.log(client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " entfernt");
-  					client.removeFromServerGroup("" + groupStyleObjects[i].id_end);
+  				if (hasGroup(ev.client, groupStyleObjects[i].id_end)) {
+  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " entfernt");
+  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].id_end);
   				}
   			}
 
@@ -145,22 +118,95 @@ registerPlugin({
   			if (groupStyleObjects[i].groupExtras.length > 0) {
 	  			for (var j = 0; j < groupStyleObjects[i].groupExtras.length; j++) {
 	  					
-		  			if (hasGroups(client, groupStyleObjects[i].groupExtras[j].extra_group_ids)) {
-		  				if (!hasGroup(client, groupStyleObjects[i].groupExtras[j].id_extra)) {
-		  					engine.log(client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " hinzugefügt");
-		  					client.addToServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
+		  			if (hasGroups(ev.client, groupStyleObjects[i].groupExtras[j].extra_group_ids)) {
+		  				if (!hasGroup(ev.client, groupStyleObjects[i].groupExtras[j].id_extra)) {
+		  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " hinzugefügt");
+		  					ev.client.addToServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
 		  				}
 		  			} else {
-		  				if (hasGroup(client, groupStyleObjects[i].groupExtras[j].id_extra)) {
-		  					engine.log(client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " entfernt");
-		  					client.removeFromServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
+		  				if (hasGroup(ev.client, groupStyleObjects[i].groupExtras[j].id_extra)) {
+		  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " entfernt");
+		  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
 		  				}
 		  			}
 
 	  			}
   			}
   		}
-  	}
+
+		}
+  	});
+
+  	event.on("serverGroupAdded", function(ev) {
+  		if (!hasGroups(ev.client, forbidden_ids)) {
+
+  			for (var i = 0; i < groupStyleObjects.length; i++) {
+  			//Normal
+  			if (hasGroups(ev.client, groupStyleObjects[i].groups)) {
+  				if (!hasGroup(ev.client, groupStyleObjects[i].id_start)) {
+  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " hinzugefügt");
+  					ev.client.addToServerGroup("" + groupStyleObjects[i].id_start);
+  				}
+  				if (!hasGroup(ev.client, groupStyleObjects[i].id_end)) {
+  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " hinzugefügt");
+  					ev.client.addToServerGroup("" + groupStyleObjects[i].id_end);
+  				}
+  			}
+
+  			//Extra
+  			if (groupStyleObjects[i].groupExtras.length > 0) {
+	  			for (var j = 0; j < groupStyleObjects[i].groupExtras.length; j++) {
+	  					
+		  			if (hasGroups(ev.client, groupStyleObjects[i].groupExtras[j].extra_group_ids)) {
+		  				if (!hasGroup(ev.client, groupStyleObjects[i].groupExtras[j].id_extra)) {
+		  					engine.log(ev.client.name() + " wird zur Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " hinzugefügt");
+		  					ev.client.addToServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
+		  				}
+		  			}
+
+	  			}
+  			}
+  		}
+
+		}
+  	});
+
+  	event.on("serverGroupRemoved", function(ev) {
+  		if (!hasGroups(ev.client, forbidden_ids)) {
+
+  			for (var i = 0; i < groupStyleObjects.length; i++) {
+  			//Normal
+  			if (!hasGroups(ev.client, groupStyleObjects[i].groups)) {
+  				if (hasGroup(ev.client, groupStyleObjects[i].id_start)) {
+  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_start).name() + " entfernt");
+  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].id_start);
+  				}
+  				if (hasGroup(ev.client, groupStyleObjects[i].id_end)) {
+  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].id_end).name() + " entfernt");
+  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].id_end);
+  				}
+  			}
+
+  			//Extra
+  			if (groupStyleObjects[i].groupExtras.length > 0) {
+	  			for (var j = 0; j < groupStyleObjects[i].groupExtras.length; j++) {
+	  					
+		  			if (!hasGroups(ev.client, groupStyleObjects[i].groupExtras[j].extra_group_ids)) {
+		  				if (hasGroup(ev.client, groupStyleObjects[i].groupExtras[j].id_extra)) {
+		  					engine.log(ev.client.name() + " wird von der Servergruppe " + backend.getServerGroupByID(groupStyleObjects[i].groupExtras[j].id_extra).name() + " entfernt");
+		  					ev.client.removeFromServerGroup("" + groupStyleObjects[i].groupExtras[j].id_extra);
+		  				}
+		  			}
+
+	  			}
+  			}
+  		}
+
+		}
+  	});
+
+
+
 
 
   	function groupStyleObject(arrayPosition) {
