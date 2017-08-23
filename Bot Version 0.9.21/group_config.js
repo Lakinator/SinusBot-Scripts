@@ -251,13 +251,10 @@ registerPlugin({
   	}
 
   	function hasGroup(cl, groupID) {
-		var group;
+		var groups = cl.getServerGroups();
 
-		for (var index in cl.getServerGroups()) {
-			group = cl.getServerGroups()[index];
-			if(group.id() == groupID) {
-				return true;
-			}
+		for (var i = 0; i < groups.length; i++) {
+			if (groups[i].id() == groupID) return true;
 		}
 
 		return false;
